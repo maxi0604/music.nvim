@@ -1,11 +1,15 @@
 local NO_PLAYERS = "No players found"
 local DEFAULT_PLAYER
 local PLAYER_PREFS
-local PREF_OFFSET
+local PREF_OFFSET = 0
+
 local function play_pause()
     vim.fn.system({"playerctl", "play-pause"})
 end
 
+local function trim(str)
+  return str:gsub("^%s*(.-)%s*$", "%1")
+end
 
 local function get_players()
     local list = vim.fn.system({"playerctl", "-l"})
@@ -76,15 +80,15 @@ local function progress(player)
 end
 
 local function unchecked_artist(player)
-    return vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:artist"})
+    return trim(vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:artist"}))
 end
 
 local function unchecked_title(player)
-     return vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:title"})
+     return trim(vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:title"}))
 end
 
 local function unchecked_album(player)
-    return vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:album"})
+    return trim(vim.fn.system({"playerctl", "-p", player, "metadata", "xesam:album"}))
 end
 
 local function default_artist()
@@ -99,8 +103,32 @@ local function default_album()
     return get_checked(unchecked_album, PLAYER_PREFS)
 end
 
+local ICONS = {
+    { "spotify", '' },
+    { "firefox", '󰈹' },
+    {"plasma-browser-integration", '🌐'}
+}
+
+local function get_nf_icon(player)
+    for key, icon in ICONS do
+        if string.find(player, key) then
+            return icon
+        end
+    end
+
+    return "🎵"
+end
+
 local function bar(length, bg, dot)
     local prog = get_checked(progress, PLAYER_PREFS)
+    if not prog then
+        return nil
+    end
+
+    if not prog[1] or not prog[2] then
+        return nil
+    end
+
     local fraction = prog[1] / prog[2]
 
     local before = math.floor(fraction * 10)
@@ -142,5 +170,8 @@ return {
     default_album = default_album,
     default_bar = function ()
         return bar(10, '⸺', '⬤') .. ' '
+    end,
+    default = function()
+        return get_nf_icon(DEFAULT_PLAYER) .. ' ' .. default_album() ' - ' .. default_title() .. ' | ' .. bar(10, '⸺', '⬤') .. ' '
     end
 }
