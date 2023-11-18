@@ -99,8 +99,6 @@ local function default_album()
     return get_checked(unchecked_album, PLAYER_PREFS)
 end
 
-local function default_icon()
-end
 local function bar(length, bg, dot)
     local prog = get_checked(progress, PLAYER_PREFS)
     local fraction = prog[1] / prog[2]
@@ -143,6 +141,6 @@ return {
     default_artist = default_artist,
     default_album = default_album,
     default_bar = function ()
-        return bar(10, '⸺', '⬤')
+        return bar(10, '⸺', '⬤') .. ' '
     end
 }
