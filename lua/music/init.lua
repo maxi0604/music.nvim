@@ -42,7 +42,9 @@ local function choose_default_player(prefs)
             end
         end
     end
-    return nil
+
+    DEFAULT_PLAYER = players[1]
+    return DEFAULT_PLAYER
 end
 
 local function get_checked(func, prefs)
