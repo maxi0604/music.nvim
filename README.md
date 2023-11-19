@@ -3,8 +3,11 @@
 ![Screenshot of lualine with the plugin showing Burial - Archangel from Spotify](https://raw.githubusercontent.com/maxi0604/music.nvim-images/main/screenshot3.png)
 
 **WIP:** This is very much in progress.
+## Commands
+- `MusicPlayPause` continues or pauses the current player.
+- `MusicFirstPlayer` selects the first player in your preference order.
 
-# Install
+## Install
 
 - Install `playerctl` from your distribution's repository.
 - Add the following to your `lazy.nvim` configuration (or equivalent for other package managers)
@@ -23,7 +26,7 @@ sections = {
       },
 ```
 
-# TODO
+## TODO
 - Better documentation
 - More customization
 - Player selection by user
