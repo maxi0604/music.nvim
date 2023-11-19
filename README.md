@@ -1,5 +1,6 @@
 # 🎶 music.nvim — Control Your Media from Neovim
 ![Screenshot of lualine with the plugin showing lofi beats from YouTube](https://raw.githubusercontent.com/maxi0604/music.nvim-images/main/screenshot2.png)
+![Screenshot of lualine with the plugin showing Burial - Archangel from Spotify](https://raw.githubusercontent.com/maxi0604/music.nvim-images/main/screenshot3.png)
 
 **WIP:** This is very much in progress.
 
