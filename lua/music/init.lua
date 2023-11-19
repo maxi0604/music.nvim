@@ -21,7 +21,7 @@ local function get_players()
     -- Turn it into a list.
     local res = {}
     for v in string.gmatch(list, "[^\n]+") do
-        res[#res+1] = v
+        res[#res+1] = trim(v)
     end
     return res
 end
@@ -103,14 +103,17 @@ local function default_album()
     return get_checked(unchecked_album, PLAYER_PREFS)
 end
 
-local ICONS = {
-    { "spotify", '' },
-    { "firefox", '󰈹' },
-    {"plasma-browser-integration", '🌐'}
-}
 
 local function get_nf_icon(player)
-    for key, icon in ICONS do
+    local ICONS = {
+        { "spotify", '' },
+        { "firefox", '󰈹' },
+        { "plasma%-browser%-integration", '🌐'}
+    }
+
+    for _, item in pairs(ICONS) do
+        local key = item[1]
+        local icon = item[2]
         if string.find(player, key) then
             return icon
         end
@@ -171,7 +174,15 @@ return {
     default_bar = function ()
         return bar(10, '⸺', '⬤') .. ' '
     end,
-    default = function()
-        return get_nf_icon(DEFAULT_PLAYER) .. ' ' .. default_album() ' - ' .. default_title() .. ' | ' .. bar(10, '⸺', '⬤') .. ' '
+    info = function()
+        if not DEFAULT_PLAYER then
+            choose_default_player(PLAYER_PREFS)
+        end
+
+        return get_nf_icon(DEFAULT_PLAYER) .. ' ' .. default_artist() .. ' - ' .. default_title() .. ' | ' .. bar(10, '⸺', '⬤') .. ' '
+    end,
+
+    default_player = function ()
+        return DEFAULT_PLAYER
     end
 }
