@@ -4,7 +4,7 @@ local PLAYER_PREFS
 local PREF_OFFSET = 0
 
 local function play_pause()
-    vim.fn.system({"playerctl", "play-pause"})
+    vim.fn.system({"playerctl", "-p", DEFAULT_PLAYER, "play-pause"})
 end
 
 local function trim(str)
@@ -155,6 +155,10 @@ return {
         end, {})
         vim.api.nvim_create_user_command("MusicPrintPlayer", function()
             vim.print(DEFAULT_PLAYER)
+        end, {})
+        vim.api.nvim_create_user_command("MusicFirstPlayer", function()
+            PREF_OFFSET = 0
+            choose_default_player(PLAYER_PREFS)
         end, {})
         if not cfg then
             cfg = {}
